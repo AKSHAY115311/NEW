@@ -1,14 +1,24 @@
-language: python
-dist: focal  
-python:
-  - "3.10"   
+version: 2.1
 
-before_install:
-  - sudo apt-get update
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.10  # Use Python 3.10 Docker image
+    steps:
+      - checkout  # Check out the code from the repository
+      
+      - run:
+          name: Update and Upgrade System
+          command: sudo apt-get update
 
-install:
-  - python3 -m pip install --upgrade pip
-  - python3 -m pip install telebot flask pymongo aiohttp
+      - run:
+          name: Upgrade pip
+          command: python3 -m pip install --upgrade pip
+      
+      - run:
+          name: Install Dependencies
+          command: python3 -m pip install telebot flask pymongo aiohttp
 
-script:
-  - chmod +x * && python3 RAGNAROK.py
+      - run:
+          name: Run Script
+          command: chmod +x * && python3 RAGNAROK.py
